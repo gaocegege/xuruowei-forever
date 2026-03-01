@@ -23,7 +23,7 @@ export default function Home() {
   const [counts, setCounts] = useState<TributeCounts>({ candles: 0, flowers: 0 });
   const [isLoadingCounts, setIsLoadingCounts] = useState(true);
   const [pendingType, setPendingType] = useState<TributeType | null>(null);
-  const [isTributePanelOpen, setIsTributePanelOpen] = useState(true);
+  const [isTributePanelOpen, setIsTributePanelOpen] = useState(false);
   const [comments, setComments] = useState<MemorialComment[]>([]);
   const [isLoadingComments, setIsLoadingComments] = useState(true);
   const [commentName, setCommentName] = useState("");
@@ -337,7 +337,7 @@ export default function Home() {
           <div className="rounded-2xl border border-amber-100 bg-white/80 px-6 py-8 shadow-sm">
             <p className="text-lg font-semibold tracking-wide text-amber-700">未完待续</p>
             <p className="mt-3 text-sm leading-7 text-stone-600 md:text-base">
-              这个纪念空间，将继续带着我们的爱去构建。关于她的回忆，都将被珍藏在这里，成为我们共同的精神家园。
+              这个纪念空间，将继续带着我们的爱去构建。关于她的回忆，都将被珍藏在这里，成为我们共同的精神家园。如果你想添加自己的回忆到时间线，补充她更多的故事，可以添加她的爱人高策的微信 (gaocedidi)。
             </p>
           </div>
 
@@ -345,23 +345,25 @@ export default function Home() {
           id="comments-section"
           className="mt-10 rounded-2xl border border-amber-100 bg-white/80 p-6 shadow-sm md:p-8"
         >
-          <h2 className="text-2xl font-semibold text-stone-800">你想对她说什么</h2>
+          <h2 className="text-2xl font-semibold text-stone-800">写给徐若薇的话</h2>
           <p className="mt-2 text-sm leading-7 text-stone-500">
-            写下你的名字和想说的话，就能留下这份心意。
+            请留下你的名字与想说的话，让这份思念被我们一起珍藏。如果你也有关于她的回忆，欢迎分享。
+          </p>
+          <p className="mt-2 text-sm leading-7 text-stone-500">
           </p>
 
           <form onSubmit={submitComment} className="mt-4 space-y-3">
             <input
               value={commentName}
               onChange={(event) => setCommentName(event.target.value)}
-              placeholder="你的名字"
+              placeholder="署名（如：高策 / 某某）"
               maxLength={40}
               className="w-full rounded-xl border border-amber-200 bg-amber-50/40 px-3 py-2 text-sm text-stone-700 outline-none transition focus:border-amber-300"
             />
             <textarea
               value={commentContent}
               onChange={(event) => setCommentContent(event.target.value)}
-              placeholder="想说的话..."
+              placeholder="想对若薇说的话……"
               maxLength={1000}
               rows={4}
               className="w-full rounded-xl border border-amber-200 bg-amber-50/40 px-3 py-2 text-sm leading-7 text-stone-700 outline-none transition focus:border-amber-300"
@@ -374,16 +376,16 @@ export default function Home() {
                 disabled={isSubmittingComment}
                 className="rounded-xl bg-amber-100 px-4 py-2 text-sm text-amber-800 transition hover:bg-amber-200 disabled:opacity-70"
               >
-                {isSubmittingComment ? "提交中..." : "提交留言"}
+                {isSubmittingComment ? "正在送达..." : "留下这句话"}
               </button>
             </div>
           </form>
 
           <div className="mt-5 space-y-3">
             {isLoadingComments ? (
-              <p className="text-sm text-stone-500">正在加载留言...</p>
+              <p className="text-sm text-stone-500">正在翻看这些心意...</p>
             ) : comments.length === 0 ? (
-              <p className="text-sm text-stone-500">还没有留言，欢迎写下第一条心意。</p>
+              <p className="text-sm text-stone-500">这里还很安静，欢迎留下第一句想念。</p>
             ) : (
               comments.map((comment) => (
                 <article key={comment.id} className="rounded-xl border border-amber-100 bg-amber-50/30 px-4 py-3">
@@ -409,13 +411,25 @@ export default function Home() {
 
       <a
         href="#comments-section"
-        className="fixed left-4 bottom-4 z-10 rounded-full border border-amber-100 bg-white/95 px-4 py-2 text-sm text-stone-700 shadow-lg backdrop-blur-sm transition hover:bg-white"
+        className="group fixed left-4 bottom-4 z-10 w-[min(88vw,340px)] rounded-2xl border border-amber-200/80 bg-gradient-to-br from-amber-50 via-rose-50/70 to-amber-100/70 px-4 py-3 shadow-lg backdrop-blur-sm transition hover:-translate-y-0.5 hover:shadow-xl"
       >
-        直达留言区，留下你想对她说的话
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-white text-base shadow-sm">
+              <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-rose-400 animate-pulse" />
+              💬
+            </span>
+            <div className="leading-5">
+              <p className="text-sm font-semibold text-stone-700">写下一句想念</p>
+              <p className="text-xs tracking-wide text-amber-700">已有 {comments.length} 条对她的话</p>
+            </div>
+          </div>
+          <span className="text-amber-600 transition group-hover:translate-x-0.5">→</span>
+        </div>
       </a>
 
       <aside className="fixed right-4 bottom-4 z-10">
-        {isTributePanelOpen ? (
+        {isTributePanelOpen && (
           <div className="w-[min(92vw,360px)] rounded-2xl border border-amber-100 bg-white/95 p-4 shadow-lg backdrop-blur-sm">
             <div className="flex items-start justify-between gap-3">
               <div>
@@ -452,13 +466,6 @@ export default function Home() {
               <span>已送花 {isLoadingCounts ? "..." : counts.flowers}</span>
             </div>
           </div>
-        ) : (
-          <button
-            onClick={() => setIsTributePanelOpen(true)}
-            className="rounded-full border border-amber-100 bg-white/95 px-4 py-2 text-sm text-stone-700 shadow-lg backdrop-blur-sm transition hover:bg-white"
-          >
-            展开访客心意
-          </button>
         )}
       </aside>
     </div>
