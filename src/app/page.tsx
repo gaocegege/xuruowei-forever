@@ -411,16 +411,15 @@ export default function Home() {
 
       <a
         href="#comments-section"
-        className="group fixed left-4 bottom-4 z-10 w-[min(88vw,340px)] rounded-2xl border border-amber-200/80 bg-gradient-to-br from-amber-50 via-rose-50/70 to-amber-100/70 px-4 py-3 shadow-lg backdrop-blur-sm transition hover:-translate-y-0.5 hover:shadow-xl"
+        className="group fixed right-4 bottom-4 z-10 w-[min(88vw,340px)] rounded-2xl border border-amber-200/80 bg-gradient-to-br from-amber-50 via-rose-50/70 to-amber-100/70 px-4 py-3 shadow-lg backdrop-blur-sm transition hover:-translate-y-0.5 hover:shadow-xl"
       >
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-white text-base shadow-sm">
-              <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-rose-400 animate-pulse" />
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-base shadow-sm">
               💬
             </span>
             <div className="leading-5">
-              <p className="text-sm font-semibold text-stone-700">写下一句想念</p>
+              <p className="text-sm font-semibold text-stone-700">分享你对徐若薇的回忆，让我们了解更多关于她的故事。</p>
               <p className="text-xs tracking-wide text-amber-700">已有 {comments.length} 条对她的话</p>
             </div>
           </div>
